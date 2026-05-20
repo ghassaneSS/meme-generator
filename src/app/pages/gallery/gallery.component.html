@@ -1,0 +1,61 @@
+<section class="gallery">
+  <header class="gallery__header">
+    <div>
+      <h1>Galerie</h1>
+      <p>{{ memes.length }} mème{{ memes.length > 1 ? 's' : '' }} sauvegardé{{ memes.length > 1 ? 's' : '' }} sur ce navigateur.</p>
+    </div>
+    <button *ngIf="memes.length" type="button" class="btn btn--danger-ghost" (click)="clearAll()">
+      🗑 Tout supprimer
+    </button>
+  </header>
+
+  <div *ngIf="memes.length === 0" class="empty">
+    <p>Aucun mème dans votre galerie pour le moment.</p>
+    <a routerLink="/editor" class="btn btn--primary">Créer un mème</a>
+  </div>
+
+  <div class="grid" *ngIf="memes.length">
+    <article
+      *ngFor="let meme of memes; trackBy: trackById"
+      class="card"
+      (click)="open(meme)"
+      role="button"
+      tabindex="0"
+      (keydown.enter)="open(meme)"
+    >
+      <div class="card__media">
+        <img [src]="meme.finalDataUrl" [alt]="meme.title" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <h3>{{ meme.title }}</h3>
+        <span class="card__date">{{ formatDate(meme.createdAt) }}</span>
+      </div>
+      <div class="card__actions">
+        <button type="button" class="btn btn--ghost" (click)="download(meme, $event)" title="Télécharger">⬇</button>
+        <button type="button" class="btn btn--ghost" (click)="shareOn(meme, 'twitter', $event)" title="Partager sur X">X</button>
+        <button type="button" class="btn btn--ghost" (click)="shareOn(meme, 'whatsapp', $event)" title="WhatsApp">W</button>
+        <button type="button" class="btn btn--danger-ghost" (click)="remove(meme, $event)" title="Supprimer">✕</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<div *ngIf="selected" class="modal" (click)="close()">
+  <div class="modal__content" (click)="$event.stopPropagation()">
+    <header class="modal__head">
+      <h2>{{ selected.title }}</h2>
+      <button type="button" class="btn btn--ghost" (click)="close()">✕</button>
+    </header>
+    <img [src]="selected.finalDataUrl" [alt]="selected.title" />
+    <footer class="modal__foot">
+      <button type="button" class="btn btn--primary" (click)="download(selected)">⬇ Télécharger</button>
+      <button type="button" class="share-btn share-btn--twitter" (click)="shareOn(selected, 'twitter')">X</button>
+      <button type="button" class="share-btn share-btn--facebook" (click)="shareOn(selected, 'facebook')">f</button>
+      <button type="button" class="share-btn share-btn--whatsapp" (click)="shareOn(selected, 'whatsapp')">W</button>
+      <button type="button" class="share-btn share-btn--telegram" (click)="shareOn(selected, 'telegram')">T</button>
+      <button type="button" class="share-btn share-btn--reddit" (click)="shareOn(selected, 'reddit')">R</button>
+      <button type="button" class="share-btn share-btn--native" (click)="shareNative(selected)">↗</button>
+      <button type="button" class="btn btn--danger-ghost" (click)="remove(selected)">Supprimer</button>
+    </footer>
+  </div>
+</div>
