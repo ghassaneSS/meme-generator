@@ -19,8 +19,7 @@ Projet réalisé dans le cadre de l'accès SUP INFO.
 - **Langage** : TypeScript
 - **Rendu** : HTML Canvas API
 - **Persistance** : `localStorage` (aucun backend requis)
-- **Tests** : Karma + Jasmine (squelette fourni par Angular CLI)
-
+- 
 ## Prérequis
 
 - Node.js >= 16
@@ -41,14 +40,6 @@ npm start
 ```
 
 Ouvre [http://localhost:4200](http://localhost:4200). L'app se recharge automatiquement à chaque modification.
-
-## Build de production
-
-```bash
-npm run build
-```
-
-Les artefacts sont générés dans `dist/meme-generator-angular/`.
 
 ## Structure du projet
 
@@ -93,13 +84,3 @@ src/
 ## Stockage local
 
 Les mèmes sauvegardés sont sérialisés en JSON dans la clé `memeforge.gallery.v1` du `localStorage`. Pour tout effacer : bouton *« Tout supprimer »* dans la galerie, ou vider le stockage du navigateur.
-
-## Tests
-
-```bash
-npm test
-```
-
-## Licence
-
-Projet pédagogique — usage libre.
