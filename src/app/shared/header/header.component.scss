@@ -1,0 +1,60 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(6px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+
+  &__logo {
+    font-size: 1.4rem;
+  }
+
+  &__name {
+    background: linear-gradient(135deg, var(--primary), #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.nav {
+  display: flex;
+  gap: 0.4rem;
+
+  a {
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+  }
+
+  .nav__link--active {
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+  }
+}
