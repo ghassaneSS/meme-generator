@@ -1,0 +1,115 @@
+<section class="editor">
+  <aside class="editor__panel">
+    <div class="panel-section">
+      <h2>1. Image</h2>
+      <label class="file-drop" [class.file-drop--filled]="imageDataUrl">
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+        <span *ngIf="!imageDataUrl">Choisir une image depuis votre ordinateur</span>
+        <span *ngIf="imageDataUrl">Remplacer l'image</span>
+      </label>
+
+      <label class="field">
+        <span>Titre du mème</span>
+        <input type="text" [(ngModel)]="title" maxlength="80" placeholder="Mon mème" />
+      </label>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section__header">
+        <h2>2. Textes</h2>
+        <div class="btn-group">
+          <button type="button" class="btn btn--ghost" (click)="addText('top')">+ haut</button>
+          <button type="button" class="btn btn--ghost" (click)="addText('middle')">+ milieu</button>
+          <button type="button" class="btn btn--ghost" (click)="addText('bottom')">+ bas</button>
+        </div>
+      </div>
+
+      <p *ngIf="texts.length === 0" class="empty">Aucun texte. Ajoutez-en un avec les boutons ci-dessus.</p>
+
+      <article *ngFor="let text of texts; trackBy: trackById" class="text-card">
+        <div class="text-card__head">
+          <select [(ngModel)]="text.position" (ngModelChange)="onTextChange()">
+            <option *ngFor="let p of positions" [ngValue]="p">{{ p === 'top' ? 'Haut' : p === 'middle' ? 'Milieu' : 'Bas' }}</option>
+          </select>
+          <div class="btn-group">
+            <button type="button" class="btn btn--ghost" (click)="duplicateText(text.id)" title="Dupliquer">⎘</button>
+            <button type="button" class="btn btn--danger-ghost" (click)="removeText(text.id)" title="Supprimer">✕</button>
+          </div>
+        </div>
+
+        <label class="field">
+          <span>Contenu</span>
+          <textarea rows="2" [(ngModel)]="text.content" (ngModelChange)="onTextChange()" maxlength="200"></textarea>
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span>Police</span>
+            <select [(ngModel)]="text.fontFamily" (ngModelChange)="onTextChange()">
+              <option *ngFor="let f of fontChoices" [ngValue]="f">{{ f }}</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Taille ({{ text.fontSize }}px)</span>
+            <input type="range" min="16" max="120" [(ngModel)]="text.fontSize" (ngModelChange)="onTextChange()" />
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label class="field field--color">
+            <span>Couleur</span>
+            <input type="color" [(ngModel)]="text.color" (ngModelChange)="onTextChange()" />
+          </label>
+          <label class="field field--color">
+            <span>Contour</span>
+            <input type="color" [(ngModel)]="text.strokeColor" (ngModelChange)="onTextChange()" />
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <label class="toggle">
+            <input type="checkbox" [(ngModel)]="text.bold" (ngModelChange)="onTextChange()" />
+            <span>Gras</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" [(ngModel)]="text.italic" (ngModelChange)="onTextChange()" />
+            <span>Italique</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" [(ngModel)]="text.uppercase" (ngModelChange)="onTextChange()" />
+            <span>MAJ</span>
+          </label>
+        </div>
+      </article>
+    </div>
+
+    <div class="panel-section">
+      <h2>3. Actions</h2>
+      <div class="actions">
+        <button type="button" class="btn btn--primary" (click)="saveToGallery()">💾 Enregistrer dans la galerie</button>
+        <button type="button" class="btn" (click)="downloadPng()">⬇ Télécharger PNG</button>
+        <button type="button" class="btn btn--ghost" (click)="reset()">🗑 Réinitialiser</button>
+      </div>
+
+      <div class="share">
+        <span class="share__label">Partager :</span>
+        <div class="share__buttons">
+          <button type="button" class="share-btn share-btn--twitter" (click)="shareOn('twitter')" title="X / Twitter">X</button>
+          <button type="button" class="share-btn share-btn--facebook" (click)="shareOn('facebook')" title="Facebook">f</button>
+          <button type="button" class="share-btn share-btn--whatsapp" (click)="shareOn('whatsapp')" title="WhatsApp">W</button>
+          <button type="button" class="share-btn share-btn--telegram" (click)="shareOn('telegram')" title="Telegram">T</button>
+          <button type="button" class="share-btn share-btn--reddit" (click)="shareOn('reddit')" title="Reddit">R</button>
+          <button type="button" class="share-btn share-btn--native" (click)="shareNative()" title="Partage système">↗</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="editor__preview">
+    <div class="preview-card">
+      <canvas #canvas></canvas>
+    </div>
+
+    <p *ngIf="feedback" class="feedback feedback--{{ feedback.type }}">{{ feedback.message }}</p>
+  </main>
+</section>
